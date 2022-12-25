@@ -8,7 +8,12 @@ interface Props {
 }
 
 function getRating(result: SingleResult): number {
-  return result.solved?Math.exp(-Math.pow((Math.sqrt(Math.log(2))*result.time/result.medianTime),2))*result.size:0
+  if (result.solved) {
+    const realValue = Math.exp(-Math.pow((Math.sqrt(Math.log(2))*result.time/result.medianTime),2))
+    return (0.4 + realValue*0.6) * result.size
+  } else {
+    return 0
+  }
 }
 
 export function FinishDialog(props: Props) {

@@ -1,6 +1,5 @@
 import {Paper, Typography, Box, Button} from '@mui/material'
 import {AppState} from '../model/state'
-import {SingleResult, SolvingStat} from '../model/solving_stat'
 
 interface Props {
   appState: AppState,

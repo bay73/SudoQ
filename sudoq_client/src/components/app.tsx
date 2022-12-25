@@ -10,7 +10,6 @@ import {AppState} from '../model/state'
 
 function getStateFromLocalStorage(): AppState {
   const stateJson = localStorage.getItem("state")
-  console.log(stateJson)
   if (stateJson !== null) {
     try {
       const state = JSON.parse(stateJson)
@@ -27,16 +26,24 @@ function getStateFromLocalStorage(): AppState {
   return new AppState("starting", 4)
 }
 
+function getSolvingStatFromLocalStorage(): SolvingStat {
+  return SolvingStat.fromJson(localStorage.getItem("solving-stat"))
+}
+
 function App() {
 
 
   const [appState, setState] = React.useState(getStateFromLocalStorage())
   const [sudokuData, setSudokuData] = React.useState(Storage.getSudoku(appState.sudokuSize))
-  const [solvingStat, setSolvingStat] = React.useState(new SolvingStat())
+  const [solvingStat, setSolvingStat] = React.useState(getSolvingStatFromLocalStorage())
 
   React.useEffect(() => {
       localStorage.setItem("state", JSON.stringify(appState))
     },[appState])
+  React.useEffect(() => {
+      console.log(solvingStat)
+      localStorage.setItem("solving-stat", JSON.stringify(solvingStat))
+    },[solvingStat])
 
   if (appState.state === 'finish') {
 

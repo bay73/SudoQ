@@ -53,10 +53,11 @@ export function MainPage(props: Props) {
     }
   })
   
-  const gap = 0.05
+  const hGap = 0.05
+  const vGap = 0.1
   const headerFraction = 0.3
-  const usedHeight = dimensions.height/ (1+gap)
-  const usedWidth = dimensions.width/ (1+gap)
+  const usedHeight = dimensions.height/ (1+hGap)
+  const usedWidth = dimensions.width/ (1+vGap)
   
   let vertical: boolean
   let gridSize: number
