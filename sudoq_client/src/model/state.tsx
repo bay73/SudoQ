@@ -8,4 +8,8 @@ export class AppState {
     this.sudokuSize = sudokuSize;
     this.changeTime = Date.now();
   }
+
+  newState(state: string): AppState {
+    return new AppState(state, this.sudokuSize);
+  }
 }

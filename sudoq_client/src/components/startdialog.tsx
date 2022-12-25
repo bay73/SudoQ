@@ -21,9 +21,12 @@ export function StartDialog(props: Props) {
     text = 'Now you have a real challenge. What is the target digit in this puzzle?'
   }
 
-  const onClick = function() {
-    const state = new AppState("solving", props.appState.sudokuSize)
-    props.setState(state);
+  const onStartClick = function() {
+    props.setState(props.appState.newState("solving"));
+  }
+
+  const onHelpClick = function() {
+    props.setState(props.appState.newState("help"));
   }
 
   return (
@@ -35,7 +38,8 @@ export function StartDialog(props: Props) {
         </DialogContentText>
       </DialogContent>
       <DialogActions>
-        <Button variant='contained' autoFocus onClick = {()=>onClick()}>Start</Button>
+        <Button variant='contained' autoFocus onClick = {()=>onStartClick()}>Start</Button>
+        <Button variant='outlined' onClick = {()=>onHelpClick()}>Help</Button>
       </DialogActions>
     </Dialog>
   )

@@ -3,6 +3,7 @@ import {Container} from '@mui/material'
 import {MainPage} from './main'
 import {StartDialog} from './startdialog'
 import {FinishDialog} from './finishdialog'
+import {HelpDialog} from './helpdialog'
 import {Storage} from '../data/storage'
 import {SolvingStat} from '../model/solving_stat'
 import {AppState} from '../model/state'
@@ -42,6 +43,12 @@ function App() {
     return (
       <Container>
         <FinishDialog appState={appState} solvingStat={solvingStat} />
+      </Container>
+    )
+  } else if (appState.state === 'help') {
+    return (
+      <Container>
+        <HelpDialog appState={appState} setState={setState}  />
       </Container>
     )
   } else {

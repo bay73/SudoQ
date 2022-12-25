@@ -38,7 +38,7 @@ export function Buttons(props: Props) {
       state.sudokuSize = next.size
       props.setState(state);
     } else {
-      props.setState(new AppState("finish", props.appState.sudokuSize));
+      props.setState(props.appState.newState("finish"));
     }
   }
     
