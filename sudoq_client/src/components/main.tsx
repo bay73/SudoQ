@@ -3,6 +3,7 @@ import {Stack, Paper} from '@mui/material'
 import {Grid} from './grid'
 import {Buttons} from './buttons'
 import {Header} from './header'
+import {debounce} from './utils'
 import {SudokuData} from '../model/sudoku'
 import {SolvingStat} from '../model/solving_stat'
 import {AppState} from '../model/state'
@@ -16,21 +17,6 @@ interface Props {
   solvingStat: SolvingStat;
   setSolvingStat: React.Dispatch<React.SetStateAction<SolvingStat>>;
 }
-
-const debounce = <T extends (...args: any[]) => any>(
-  callback: T,
-  waitFor: number
-) => {
-  let timeout: ReturnType<typeof setTimeout>;
-  return (...args: Parameters<T>): ReturnType<T> => {
-    let result: any;
-    timeout && clearTimeout(timeout);
-    timeout = setTimeout(() => {
-      result = callback(...args);
-    }, waitFor);
-    return result;
-  };
-};
 
 export function MainPage(props: Props) {
 
