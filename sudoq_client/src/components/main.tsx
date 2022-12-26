@@ -87,7 +87,7 @@ export function MainPage(props: Props) {
     <Stack spacing={2} direction="column" justifyContent="space-evenly" alignItems="center">
       <Header sudokuSize={props.sudokuData.size} areaWidth={headerWidth} areaHeight={headerHeight} />
       <Stack spacing={2} direction={vertical?"column":"row"} justifyContent="space-evenly" alignItems="center">
-        <Paper elevation={12} sx={{p:1}}>
+        <Paper elevation={12} sx={{p:0}}>
           < Grid gridSize={gridSize} sudokuData={props.sudokuData} appState={props.appState} />
         </Paper>
         <Buttons areaWidth={buttonsWidth} areaHeight={buttonsHeight} sudokuData={props.sudokuData} appState={props.appState} setState={props.setState} setSudokuData={props.setSudokuData} solvingStat={props.solvingStat} setSolvingStat={props.setSolvingStat} />

@@ -16,11 +16,25 @@ function getRating(result: SingleResult): number {
   }
 }
 
+function saveRating(rating: number) {
+  const dateInStorage = localStorage.getItem('historyStartDate')
+  let startDate = dateInStorage===null ? undefined : new Date(dateInStorage)
+  if (typeof startDate=='undefined' || startDate===null) {
+    startDate = new Date()
+    startDate.setHours(0,0,0,0)
+    localStorage.setItem('historyStartDate', startDate.toLocaleString())
+  }
+  const dayNum = Math.floor((Date.now() - startDate.getTime())/(1000 * 3600 * 24))
+  localStorage.setItem('history'+dayNum, rating.toString())
+}
+
 export function FinishDialog(props: Props) {
 
     const sumIndexes = Object.keys(props.solvingStat.results).reduce((total, index) => total + parseInt(index), 0);
     const rating = Object.entries(props.solvingStat.results).map((entry) => getRating(entry[1])).reduce((total, value) => total + value, 0)/sumIndexes;
     const sudoQ = Math.round(rating * 200)
+
+    saveRating(sudoQ)
 
     return (
       <Paper elevation={12} sx={{p:1}}>

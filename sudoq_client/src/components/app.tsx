@@ -32,7 +32,6 @@ function getSolvingStatFromLocalStorage(): SolvingStat {
 
 function App() {
 
-
   const [appState, setState] = React.useState(getStateFromLocalStorage())
   const [sudokuData, setSudokuData] = React.useState(Storage.getSudoku(appState.sudokuSize))
   const [solvingStat, setSolvingStat] = React.useState(getSolvingStatFromLocalStorage())
@@ -41,12 +40,10 @@ function App() {
       localStorage.setItem("state", JSON.stringify(appState))
     },[appState])
   React.useEffect(() => {
-      console.log(solvingStat)
       localStorage.setItem("solving-stat", JSON.stringify(solvingStat))
     },[solvingStat])
 
   if (appState.state === 'finish') {
-
     return (
       <Container>
         <FinishDialog appState={appState} solvingStat={solvingStat} />
