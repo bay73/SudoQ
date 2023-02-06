@@ -34,7 +34,7 @@ export class SolvingStat{
         const stat = JSON.parse(solvingStatJson)
         const newStat = new SolvingStat()
         if (typeof stat.results === 'object') {
-          for (const [n, result] of Object.entries(stat.results)) {
+          for (const result of Object.values(stat.results)) {
             const item = result as SingleResult
             newStat.results[item.size] = item
           }

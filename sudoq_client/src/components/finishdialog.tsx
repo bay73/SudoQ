@@ -6,6 +6,8 @@ import {debounce} from './utils'
 
 const numberStyle = {fontFamily: "Roboto,Helvetica,Arial,sans-serif", fontWeight: "bold"}
 
+const sudoqScale = 200
+
 interface Props {
   appState: AppState,
   solvingStat: SolvingStat
@@ -54,32 +56,32 @@ export function FinishDialog(props: Props) {
   })
 
   const sizes = Object.keys(props.solvingStat.results).map(key=>parseInt(key)).sort()
-  const ratings = sizes.map((size) => {return {size: size, rating: getRating(props.solvingStat.results[size])} }).sort((r1, r2) => r2.size-r1.size)
-  const sumIndexes = sizes.reduce((total, size) => total + size, 0)
-  const rating = ratings.reduce((total, value) => total + value.rating*value.size, 0)/sumIndexes
-  const sudoQ = Math.round(rating * 200)
+  const partialRatings = sizes.map((size) => {return {size: size, rating: getRating(props.solvingStat.results[size])} }).sort((r1, r2) => r2.size-r1.size)
+  const sumSizes = sizes.reduce((total, size) => total + size, 0)
+  const averageRating = partialRatings.reduce((total, value) => total + value.rating*value.size, 0)/sumSizes
+  const sudoQ = Math.round(averageRating * sudoqScale)
 
   saveRating(sudoQ)
 
   const hGap = 0.25
-  const vGap = 0.25
-  const usedHeight = dimensions.height/ (1+hGap)
-  const usedWidth = dimensions.width/ (1+vGap)
+  const vGap = 0.28
+  const usedHeight = dimensions.height/ (1+vGap)
+  const usedWidth = dimensions.width/ (1+hGap)
 
   const gap = 4
   const scale = 32
   const size = Math.max(...sizes);
   const viewBox = `${-gap} ${-gap} ${size*scale+2*gap} ${size*scale+2*gap}`
-  const squares = ratings.map(r => drawSquare(r.size, r.rating, scale))
-  const numbers = ratings.map(r => drawNumber(r.size, r.rating, scale))
-  const ratingPicture = drawRating(rating, scale)
+  const squares = partialRatings.map(r => drawPartialRatingSquare(r.size, r.rating, scale))
+  const numbers = partialRatings.map(r => drawPartialRatingNumber(r.size, r.rating, scale))
+  const ratingPicture = drawRatingNumber(averageRating, scale)
 
   const headerFraction = 0.3
   let gridSize = usedHeight / (1+headerFraction)
   gridSize = gridSize > usedWidth ? usedWidth : gridSize
 
   return (
-    <Paper elevation={12} sx={{p:1, textAlign: "center"}}>
+    <Paper elevation={12} sx={{p:1, textAlign: "center", my: 2}}>
       <Typography variant="h3" align="center" sx={{my: 3}} >Your SudoQ today is {sudoQ}</Typography>
       <svg viewBox={viewBox} style={{width: gridSize, height: gridSize }} >
         {squares}
@@ -90,16 +92,16 @@ export function FinishDialog(props: Props) {
   );
 }
 
-function drawSquare(size: number, value: number, scale: number) {
-  const colorNegativeComponent = (240-Math.round(value*200)).toString(16)
-  const color = "#"+colorNegativeComponent+colorNegativeComponent+"f0"
-  return <rect key={size} x="0" y="0" width={size*scale} height={size*scale} style={{stroke: "black", strokeWidth: "1px", fill: color}}></rect>
+function drawPartialRatingSquare(size: number, value: number, scale: number) {
+  const colorNegativeComponent = (216-Math.round(value*sudoqScale)).toString(16)
+  const color = "#"+colorNegativeComponent+colorNegativeComponent+"ff"
+  return <rect key={size} x="0" y="0" width={size*scale} height={size*scale} rx={scale/8} style={{stroke: "black", strokeWidth: "2px", fill: color}}></rect>
 }
 
-function drawNumber(size: number, value: number, scale: number) {
-  return <text key={size} x={scale*3/2} y={size*scale-scale/6} textAnchor="end" fontSize={scale/2} style={numberStyle}>{Math.round(value*200)}</text>
+function drawPartialRatingNumber(size: number, value: number, scale: number) {
+  return <text key={size} x={scale*3/2} y={size*scale-scale/6} textAnchor="end" fontSize={scale/2} style={numberStyle}>{Math.round(value*sudoqScale)}</text>
 }
 
-function drawRating(value: number, scale: number) {
+function drawRatingNumber(value: number, scale: number) {
   return <text x={2*scale} y={2*scale} textAnchor="middle" dominantBaseline="central" fontSize={scale*2} style={numberStyle}>{Math.round(value*200)}</text>
 }

@@ -9,8 +9,6 @@ interface Props {
 
 
 export function Header(props: Props) {
-  let fontSize: number
-  let separator: string
   if (props.areaWidth > 4*props.areaHeight)  {
     return (
       <Box>

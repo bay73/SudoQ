@@ -13,7 +13,7 @@ export function HelpDialog(props: Props) {
   }
 
   return (
-    <Paper elevation={12} sx={{p:1}}>
+    <Paper elevation={12} sx={{p:1, my: 2}}>
       <Typography variant="h3" align="center" sx={{py: 2}}>SudoQ test</Typography>
       <Typography align="justify" sx={{lineHeight: 1.5}}>
         <Typography sx={{py: 1}}><Box component='span' sx={{fontWeight: 'bold'}}>SudoQ</Box> test allows you to measure your Sudoku solving skills.</Typography>

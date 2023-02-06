@@ -8,33 +8,11 @@ import {Storage} from '../data/storage'
 import {SolvingStat} from '../model/solving_stat'
 import {AppState} from '../model/state'
 
-function getStateFromLocalStorage(): AppState {
-  const stateJson = localStorage.getItem("state")
-  if (stateJson !== null) {
-    try {
-      const state = JSON.parse(stateJson)
-      const today = new Date();
-      today.setHours(0,0,0,0)
-      if (state.changeTime >= today.getTime()) {
-        const appState = new AppState(state.state, state.sudokuSize)
-        appState.changeTime = state.changeTime
-        return appState 
-      }
-    } catch(e){
-    }
-  }
-  return new AppState("starting", 4)
-}
-
-function getSolvingStatFromLocalStorage(): SolvingStat {
-  return SolvingStat.fromJson(localStorage.getItem("solving-stat"))
-}
-
 function App() {
 
-  const [appState, setState] = React.useState(getStateFromLocalStorage())
+  const [appState, setState] = React.useState(AppState.fromJson(localStorage.getItem("state")))
   const [sudokuData, setSudokuData] = React.useState(Storage.getSudoku(appState.sudokuSize))
-  const [solvingStat, setSolvingStat] = React.useState(getSolvingStatFromLocalStorage())
+  const [solvingStat, setSolvingStat] = React.useState(SolvingStat.fromJson(localStorage.getItem("solving-stat")))
 
   React.useEffect(() => {
       localStorage.setItem("state", JSON.stringify(appState))
