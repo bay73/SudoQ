@@ -8,12 +8,32 @@ import {Storage} from '../data/storage'
 import {SolvingStat} from '../model/solving_stat'
 import {AppState} from '../model/state'
 
+
 function App() {
 
-  const [appState, setState] = React.useState(AppState.fromJson(localStorage.getItem("state")))
+  const [appState, setState] = React.useState(new AppState("init", 4))
   const [sudokuData, setSudokuData] = React.useState(Storage.getSudoku(appState.sudokuSize))
   const [solvingStat, setSolvingStat] = React.useState(SolvingStat.fromJson(localStorage.getItem("solving-stat")))
 
+  React.useEffect(() => {
+      (async () => {
+        const today = new Date();
+        const address = "https://bay73.github.io/SudoQ/" +
+              today.getFullYear() + "/" +
+              ("00" + (today.getMonth()+1)).slice(-2) + "/" +
+              ("00" + today.getDate()).slice(-2) + ".json"
+        const response = await fetch(address);
+        const data = await response.json();
+        Storage.init(data)
+        const state = AppState.fromJson(localStorage.getItem("state"))
+        if (state.state === "init") {
+          setState(state.newState("starting"))
+        } else {
+          setState(state)
+        }
+        setSudokuData(Storage.getSudoku(appState.sudokuSize))
+      })();
+    },[])
   React.useEffect(() => {
       localStorage.setItem("state", JSON.stringify(appState))
     },[appState])
@@ -33,11 +53,16 @@ function App() {
         <HelpDialog appState={appState} setState={setState}  />
       </Container>
     )
-  } else {
+  } else if (sudokuData !== undefined) {
     return (
       <Container>
         <MainPage sudokuData={sudokuData} appState={appState} setState={setState} setSudokuData={setSudokuData} solvingStat={solvingStat} setSolvingStat={setSolvingStat} />
         <StartDialog appState={appState} setState={setState} sudokuData={sudokuData}/>
+      </Container>
+    )
+  } else {
+    return (
+      <Container>
       </Container>
     )
   }

@@ -1,17 +1,33 @@
 import {SudokuData} from '../model/sudoku'
-import data from './data.json'
+import data from "./data.json";
+
+export type JSONData = typeof data;
 
 export class Storage {
 
-  static hasData(size: number): boolean {
-    return typeof data.data.filter(item => item.size === size)[0] !== 'undefined'
+  static data_: JSONData
+
+  static async init(data: JSONData) {
+    Storage.data_ = data
   }
 
-  static getSudoku(size: number): SudokuData {
-    return SudokuData.parseJSON(JSON.stringify(data.data.filter(item => item.size === size)[0]))
+  static data(): JSONData  {
+    return Storage.data_
+  }
+
+  static hasData(size: number): boolean {
+    return typeof Storage.data().data.filter(item => item.size === size)[0] !== 'undefined'
+  }
+
+  static getSudoku(size: number): SudokuData | undefined {
+    if (Storage.data() === undefined) {
+      return undefined
+    } else {
+      return SudokuData.parseJSON(JSON.stringify(Storage.data().data.filter(item => item.size === size)[0]))
+    }
   }
   
-  static next(size: number): SudokuData {
+  static next(size: number): SudokuData | undefined {
     return Storage.getSudoku(size+1)
   }
 

@@ -12,7 +12,7 @@ interface Props {
   sudokuData: SudokuData;
   appState: AppState;
   setState: React.Dispatch<React.SetStateAction<AppState>>;
-  setSudokuData: React.Dispatch<React.SetStateAction<SudokuData>>;
+  setSudokuData: React.Dispatch<React.SetStateAction<SudokuData | undefined>>;
   solvingStat: SolvingStat;
   setSolvingStat: React.Dispatch<React.SetStateAction<SolvingStat>>;
 }
@@ -33,10 +33,14 @@ export function Buttons(props: Props) {
     props.setSolvingStat(newSolvingStat)
     if (Storage.hasNext(props.sudokuData.size)) {
       const next = Storage.next(props.sudokuData.size)
-      props.setSudokuData(next);
-      const state = new AppState("starting", next.size)
-      state.sudokuSize = next.size
-      props.setState(state);
+      if (next !== undefined) {
+        props.setSudokuData(next);
+        const state = new AppState("starting", next.size)
+        state.sudokuSize = next.size
+        props.setState(state);
+      } else {
+        props.setState(props.appState.newState("init"));
+      }
     } else {
       props.setState(props.appState.newState("finish"));
     }

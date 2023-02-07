@@ -13,7 +13,7 @@ interface Props {
   appState: AppState;
   setState: React.Dispatch<React.SetStateAction<AppState>>;
   sudokuData: SudokuData;
-  setSudokuData: React.Dispatch<React.SetStateAction<SudokuData>>;
+  setSudokuData: React.Dispatch<React.SetStateAction<SudokuData | undefined>>;
   solvingStat: SolvingStat;
   setSolvingStat: React.Dispatch<React.SetStateAction<SolvingStat>>;
 }
