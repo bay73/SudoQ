@@ -25,17 +25,18 @@ function App() {
         const response = await fetch(address);
         const data = await response.json();
         Storage.init(data)
-        const state = AppState.fromJson(localStorage.getItem("state"))
+        let state = AppState.fromJson(localStorage.getItem("state"))
         if (state.state === "init") {
-          setState(state.newState("starting"))
-        } else {
-          setState(state)
+          state = state.newState("starting")
         }
-        setSudokuData(Storage.getSudoku(appState.sudokuSize))
+        setSudokuData(Storage.getSudoku(state.sudokuSize))
+        setState(state)
       })();
     },[])
   React.useEffect(() => {
-      localStorage.setItem("state", JSON.stringify(appState))
+      if (appState.state != 'init') {
+        localStorage.setItem("state", JSON.stringify(appState))
+      }
     },[appState])
   React.useEffect(() => {
       localStorage.setItem("solving-stat", JSON.stringify(solvingStat))
