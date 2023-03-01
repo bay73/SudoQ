@@ -15,8 +15,9 @@ interface Props {
 
 function getRating(result: SingleResult): number {
   if (result.solved) {
+    const minimalRating = result.size*0.045
     const realValue = Math.exp(-Math.pow((Math.sqrt(Math.log(2))*result.time/result.medianTime),2))
-    return 0.4 + realValue*0.6
+    return minimalRating + realValue * (1 - minimalRating)
   } else {
     return 0
   }
