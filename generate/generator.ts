@@ -3,6 +3,7 @@ import { Cell } from './cell'
 import { Area } from './area'
 import { Grid } from './grid'
 import { Strategies } from './strategies'
+import { existsSync, writeFileSync } from 'fs';
 
 class Pattern {
   size: number
@@ -45,8 +46,8 @@ class Pattern {
     maxClues[5] = 9
     maxClues[6] = 15
     maxClues[7] = 20
-    maxClues[8] = 35
-    maxClues[9] = 35
+    maxClues[8] = 25
+    maxClues[9] = 36
     this.allCells = []
     for (let row = 0; row < this.size; row++) {
       for (let column = 0; column < this.size; column++) {
@@ -296,11 +297,18 @@ function chooseGoalAndStringify(grid: Grid): Record<string, any> | undefined {
     }
   }
   if (goals.length > 0) {
+    const timeMultiplier: number[] = []
+    timeMultiplier[4] = 2.
+    timeMultiplier[5] = 3.5
+    timeMultiplier[6] = 6.
+    timeMultiplier[7] = 8.1
+    timeMultiplier[8] = 12.2
+    timeMultiplier[9] = 15.3
     const index = Math.floor(Math.random() * goals.length)
     const goal = goals[index]
     const goalValue = solution.cell(goal).value
-    const complexity = Math.floor(complexities[goal.row][goal.column] * grid.size * grid.size * grid.size / 36)
-    console.log(goal.coordinate(), goalValue, complexity)
+    const complexity = Math.floor(complexities[goal.row][goal.column] * timeMultiplier[grid.size])
+   console.log(goal.coordinate(), goalValue, complexity)
     
     const result: Record<string, any> = {}
     result["size"] = grid.size
@@ -372,5 +380,22 @@ for (let size=4;size<10;size++) {
     }
   }
 }
+
+
+let today = new Date();
+let saved = false
+while(!saved) {
+  const fileName = "public/data/" +
+              today.getFullYear() + "/" +
+              ("00" + (today.getMonth()+1)).slice(-2) + "/" +
+              ("00" + today.getDate()).slice(-2) + ".json"
+  if (!existsSync(fileName)) {
+    console.log(fileName)
+    writeFileSync(fileName, JSON.stringify(data))
+    saved = true
+  }
+  today.setDate(today.getDate() + 1)
+}
+
 
 console.log(JSON.stringify(data))
