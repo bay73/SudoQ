@@ -97,6 +97,29 @@ export class Grid {
     }
   }
   
+  printAreas() {
+    const map: number[][] = []
+    for (let row = 0; row < this.size; row++) {
+      map[row] = []
+      for (let column = 0; column < this.size; column++) {
+        map[row][column] = 0
+      }
+    }
+    for (let area = 0; area < this.areasSource.length; area++) {
+      for (let i = 0; i < this.areasSource[area].length; i++) {
+        const position = Position.parse(this.areasSource[area][i])
+        map[position.row][position.column] = area+1
+      }
+    }
+    for (let row = this.size - 1; row >= 0; row--) {
+      let str = "";
+      for (let column = 0; column < this.size; column++) {
+        str += map[row][column]+ " "
+      }
+      console.log(str)
+    }
+  }
+
   copy(): Grid {
     const newGrid = new Grid(this.size, this.areasSource)
     for (let row = 0; row < this.size; row++) {
