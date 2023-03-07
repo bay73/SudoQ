@@ -40,10 +40,10 @@ export function MainPage(props: Props) {
   })
   
   const hGap = 0.05
-  const vGap = 0.1
+  const wGap = 0.1
   const headerFraction = 0.3
   const usedHeight = dimensions.height/ (1+hGap)
-  const usedWidth = dimensions.width/ (1+vGap)
+  const usedWidth = dimensions.width/ (1+wGap)
   
   let vertical: boolean
   let gridSize: number
@@ -74,7 +74,7 @@ export function MainPage(props: Props) {
       <Header sudokuSize={props.sudokuData.size} areaWidth={headerWidth} areaHeight={headerHeight} />
       <Stack spacing={2} direction={vertical?"column":"row"} justifyContent="space-evenly" alignItems="center">
         <Paper elevation={12} sx={{p:0}}>
-          < Grid gridSize={gridSize} sudokuData={props.sudokuData} appState={props.appState} />
+          <Grid gridSize={gridSize} sudokuData={props.sudokuData} appState={props.appState} />
         </Paper>
         <Buttons areaWidth={buttonsWidth} areaHeight={buttonsHeight} sudokuData={props.sudokuData} appState={props.appState} setState={props.setState} setSudokuData={props.setSudokuData} solvingStat={props.solvingStat} setSolvingStat={props.setSolvingStat} />
       </Stack>

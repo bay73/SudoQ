@@ -21,8 +21,9 @@ export function Grid(props: Props) {
   const areaMap = new AreaMap(size, props.sudokuData.areas)
 
   const viewBox = `${-gap} ${-gap} ${size*scale+2*gap} ${size*scale+2*gap}`
+
   const cells = cellsOf2DArray(size).map((cell, index) => DrawCell(cell, scale, index));
-  const digits = props.appState.state==='solving' ? 
+  const digits = (props.appState.state==='solving' || props.appState.state==='review')?
     props.sudokuData.clues.map((clue, index) => DrawDigit(clue.cell, scale, clue.value, index)) :
     <></>
   const outerEdges = DrawOuterEdge(size, scale)

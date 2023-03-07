@@ -3,6 +3,7 @@ import {Container} from '@mui/material'
 import {MainPage} from './main'
 import {StartDialog} from './startdialog'
 import {FinishDialog} from './finishdialog'
+import {ReviewDialog} from './reviewdialog'
 import {HelpDialog} from './helpdialog'
 import {Storage} from '../data/storage'
 import {SolvingStat} from '../model/solving_stat'
@@ -34,7 +35,7 @@ function App() {
       })();
     },[])
   React.useEffect(() => {
-      if (appState.state != 'init') {
+      if (appState.state !== 'init') {
         localStorage.setItem("state", JSON.stringify(appState))
       }
     },[appState])
@@ -45,13 +46,19 @@ function App() {
   if (appState.state === 'finish') {
     return (
       <Container>
-        <FinishDialog appState={appState} solvingStat={solvingStat} />
+        <FinishDialog appState={appState} setState={setState} solvingStat={solvingStat} />
       </Container>
     )
   } else if (appState.state === 'help') {
     return (
       <Container>
         <HelpDialog appState={appState} setState={setState}  />
+      </Container>
+    )
+  } else if (appState.state === 'review' && sudokuData !== undefined) {
+    return (
+      <Container>
+        <ReviewDialog appState={appState} setState={setState} sudokuData={sudokuData} setSudokuData={setSudokuData}  solvingStat={solvingStat}  />
       </Container>
     )
   } else if (sudokuData !== undefined) {

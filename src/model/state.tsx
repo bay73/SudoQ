@@ -13,6 +13,10 @@ export class AppState {
     return new AppState(state, this.sudokuSize);
   }
 
+  setSize(size: number): AppState {
+    return new AppState(this.state, size);
+  }
+
   static fromJson(stateJson: string | null) {
     if (stateJson !== null) {
       try {

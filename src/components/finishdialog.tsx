@@ -1,5 +1,5 @@
 import React from 'react'
-import {Paper, Typography} from '@mui/material'
+import {Stack, Paper, Typography, Button} from '@mui/material'
 import {AppState} from '../model/state'
 import {SingleResult, SolvingStat} from '../model/solving_stat'
 import {debounce} from './utils'
@@ -10,6 +10,7 @@ const sudoqScale = 200
 
 interface Props {
   appState: AppState,
+  setState: React.Dispatch<React.SetStateAction<AppState>>,
   solvingStat: SolvingStat
 }
 
@@ -81,14 +82,21 @@ export function FinishDialog(props: Props) {
   let gridSize = usedHeight / (1+headerFraction)
   gridSize = gridSize > usedWidth ? usedWidth : gridSize
 
+  const onReviewClick = function() {
+    props.setState(props.appState.newState("review"));
+  }
+
   return (
     <Paper elevation={12} sx={{p:1, textAlign: "center", my: 2}}>
-      <Typography variant="h3" align="center" sx={{my: 3}} >Your SudoQ today is {sudoQ}</Typography>
-      <svg viewBox={viewBox} style={{width: gridSize, height: gridSize }} >
-        {squares}
-        {numbers}
-        {ratingPicture}
-      </svg>
+      <Stack spacing={2} direction="column" justifyContent="space-evenly" alignItems="center">
+        <Typography variant="h3" align="center" sx={{my: 3}} >Your SudoQ today is {sudoQ}</Typography>
+        <svg viewBox={viewBox} style={{width: gridSize, height: gridSize }} >
+          {squares}
+          {numbers}
+          {ratingPicture}
+        </svg>
+        <Button variant='outlined' onClick = {()=>onReviewClick()}>Review puzzles</Button>
+      </Stack>
     </Paper>
   );
 }
