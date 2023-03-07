@@ -239,7 +239,18 @@ allPatterns[8].push(new Pattern(8, '{"b2": 1, "b3": 1, "c2": 1, "c3": 1, "f6": 1
 
 allPatterns[9].push(new Pattern(9, '{"a1": 1, "a5": 1, "a9": 1, "i1": 1, "i5": 1, "i9": 1, "b2": 1, "b8": 1, "h2": 1, "h8": 1, "e1": 1, "e9": 1, "c4": 1, "c6": 1, "d3": 1, "d7": 1, "f3": 1, "f7": 1, "g4": 1, "g6": 1, "a3": 2, "a7": 2, "c1": 2, "c9": 2, "g1": 2, "g9": 2, "i3": 2, "i7": 2, "d5": 3, "e4": 3, "e6": 3, "f5": 3, "b5": 4, "e2": 4, "e8": 4, "h5": 4}'))
 
-function tryAll(grid: Grid, baseComplexity: number, complexity: number[][]) {
+interface Step {
+  position: String[]
+  value: number
+  strategy: "nakedSingle" | "hiddenSingle"
+}
+
+interface Path {
+  complexity: number
+  steps: Step[]
+}
+
+function tryAll(grid: Grid, baseComplexity: number, paths: Path[][], steps: Step[]) {
   if (baseComplexity > 7) return
   for (let row = 0; row < grid.size; row++) {
     for (let column = 0; column < grid.size; column++) {
@@ -249,10 +260,14 @@ function tryAll(grid: Grid, baseComplexity: number, complexity: number[][]) {
         const value = cell.allowedValues[0]
         const newGrid = grid.copy()
         newGrid.setValue(position, value)
-        if(complexity[row][column] > baseComplexity*3) {
-          complexity[row][column] = baseComplexity*3
+        const step: Step = {position: [position.coordinate()], value: value, strategy: "nakedSingle"}
+        const newSteps = Object.assign([], steps);
+        newSteps.push(step)
+        if(paths[row][column].complexity > baseComplexity*3) {
+          paths[row][column].complexity = baseComplexity*3
+          paths[position.row][position.column].steps = newSteps
         }
-        tryAll(newGrid, baseComplexity*3, complexity)
+        tryAll(newGrid, baseComplexity*3, paths, newSteps)
       }
     }
   }
@@ -264,32 +279,36 @@ function tryAll(grid: Grid, baseComplexity: number, complexity: number[][]) {
         const position = cells[0].position
         const newGrid = grid.copy()
         newGrid.setValue(position, v)
-        if(complexity[position.row][position.column] > baseComplexity*2) {
-          complexity[position.row][position.column] = baseComplexity*2
+        const step: Step = {position: [position.coordinate()], value: v, strategy: "hiddenSingle"}
+        const newSteps = Object.assign([], steps);
+        newSteps.push(step)
+        if(paths[position.row][position.column].complexity > baseComplexity*2) {
+          paths[position.row][position.column].complexity = baseComplexity*2
+          paths[position.row][position.column].steps = newSteps
         }
-        tryAll(newGrid, baseComplexity*2, complexity)
+        tryAll(newGrid, baseComplexity*2, paths, newSteps)
       }
     }
   }
 }
 
 
-function allComplexities(grid: Grid) {
-  const complexity: number[][] = []
+function allPathes(grid: Grid) {
+  const paths: Path[][] = []
   for (let row = 0; row < grid.size; row++) {
-    complexity[row] = []
+    paths[row] = []
     for (let column = 0; column < grid.size; column++) {
-      complexity[row][column] = 1000
+      paths[row][column] = {complexity: 1000, steps: []}
     }
   }
 
-  tryAll(grid, 1, complexity)
+  tryAll(grid, 1, paths, [])
   
-  return complexity
+  return paths
 }
 
 function chooseGoalAndStringify(grid: Grid): Record<string, any> | undefined {
-  const complexities = allComplexities(grid)
+  const paths = allPathes(grid)
   const solution = grid.copy()
   solve(solution)
 
@@ -300,7 +319,7 @@ function chooseGoalAndStringify(grid: Grid): Record<string, any> | undefined {
   
   for (let row = grid.size - 1; row >= 0; row--) {
     for (let column = 0; column < grid.size; column++) {
-      const c = complexities[row][column]
+      const c = paths[row][column].complexity
       if (c > 3 && c < 1000) {
         goals.push(new Position(row, column))
       }
@@ -309,15 +328,15 @@ function chooseGoalAndStringify(grid: Grid): Record<string, any> | undefined {
   if (goals.length > 0) {
     const timeMultiplier: number[] = []
     timeMultiplier[4] = 2.
-    timeMultiplier[5] = 3.5
+    timeMultiplier[5] = 5.3
     timeMultiplier[6] = 6.
     timeMultiplier[7] = 8.1
     timeMultiplier[8] = 12.2
-    timeMultiplier[9] = 15.3
+    timeMultiplier[9] = 13.7
     const index = Math.floor(Math.random() * goals.length)
     const goal = goals[index]
     const goalValue = solution.cell(goal).value
-    const complexity = Math.floor(complexities[goal.row][goal.column] * timeMultiplier[grid.size])
+    const complexity = Math.floor(paths[goal.row][goal.column].complexity * timeMultiplier[grid.size])
    console.log(goal.coordinate(), goalValue, complexity)
     
     const result: Record<string, any> = {}
@@ -335,6 +354,7 @@ function chooseGoalAndStringify(grid: Grid): Record<string, any> | undefined {
     result["goal"] = goal.coordinate()
     result["goalValue"] = goalValue
     result["medianTime"] = complexity
+    result["steps"] = paths[goal.row][goal.column].steps
     
     return result
   } else {
