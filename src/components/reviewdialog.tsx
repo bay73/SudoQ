@@ -57,7 +57,7 @@ export function ReviewDialog(props: Props) {
   return (
     <Paper elevation={12} sx={{p:1, textAlign: "center", my: 2}}>
       <Stack spacing={2} direction="column" justifyContent="space-evenly" alignItems="center">
-        <Typography variant="h4" align="center" sx={{my: 3}} >Todays puzzles</Typography>
+        <Typography variant="h4" align="center" sx={{my: 3}} >Today's puzzles</Typography>
         <Stack spacing={1} direction="row" justifyContent="space-evenly" alignItems="center">
           {buttons}
         </Stack>
