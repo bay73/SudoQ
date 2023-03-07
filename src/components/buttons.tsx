@@ -28,8 +28,8 @@ export function Buttons(props: Props) {
   const onClick = function(answer: number) {
     const solvingTime = Date.now() - props.appState.changeTime;
     const newSolvingStat = (answer === goal)?
-      props.solvingStat.correct(props.sudokuData.size, solvingTime, props.sudokuData.medianTime*1000)
-      : props.solvingStat.wrong(props.sudokuData.size, solvingTime, props.sudokuData.medianTime*1000);
+      props.solvingStat.correct(props.sudokuData.size, answer,solvingTime, props.sudokuData.medianTime*1000)
+      : props.solvingStat.wrong(props.sudokuData.size, answer, solvingTime, props.sudokuData.medianTime*1000);
     props.setSolvingStat(newSolvingStat)
     if (Storage.hasNext(props.sudokuData.size)) {
       const next = Storage.next(props.sudokuData.size)

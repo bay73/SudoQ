@@ -1,5 +1,6 @@
 export interface SingleResult {
   size: number;
+  answer: number;
   solved: boolean;
   time: number;
   medianTime: number;
@@ -14,17 +15,17 @@ export class SolvingStat{
     this.results = {}
   }
 
-  correct(size: number, time: number, medianTime: number): SolvingStat {
+  correct(size: number, answer: number, time: number, medianTime: number): SolvingStat {
     const newStat = new SolvingStat()
     newStat.results = this.results
-    newStat.results[size] = {size: size, solved: true, time: time, medianTime: medianTime}
+    newStat.results[size] = {size: size, answer: answer, solved: true, time: time, medianTime: medianTime}
     return newStat;
   }
 
-  wrong(size: number, time: number, medianTime: number): SolvingStat {
+  wrong(size: number, answer: number, time: number, medianTime: number): SolvingStat {
     const newStat = new SolvingStat()
     newStat.results = this.results
-    newStat.results[size] = {size: size, solved: false, time: time, medianTime: medianTime}
+    newStat.results[size] = {size: size, answer: answer, solved: false, time: time, medianTime: medianTime}
     return newStat
   }
 

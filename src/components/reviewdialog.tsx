@@ -1,5 +1,5 @@
 import React from 'react'
-import {Stack, Paper, Button} from '@mui/material'
+import {Stack, Paper, Typography, Button, Box} from '@mui/material'
 import {Grid} from './grid'
 import {AppState} from '../model/state'
 import {SudokuData} from '../model/sudoku'
@@ -47,6 +47,7 @@ export function ReviewDialog(props: Props) {
   const onBackClick = function() {
     props.setState(props.appState.newState("finish"));
   }
+  const result = props.solvingStat.results[props.appState.sudokuSize]
 
   const setSize = function(size: number) {
     props.setState(props.appState.setSize(size));
@@ -60,6 +61,7 @@ export function ReviewDialog(props: Props) {
           {buttons}
         </Stack>
         <Grid gridSize={gridSize} sudokuData={props.sudokuData} appState={props.appState} />
+        <Typography>You answered <Box component='span' sx={{fontWeight: 'bold'}} color={result.solved?'success.main':'error.main'}>{result.answer}</Box> in <Box component='span' sx={{fontWeight: 'bold'}}>{Math.round(result.time/100)/10}</Box> seconds</Typography>
         <Button variant='outlined' onClick = {()=>onBackClick()}>Back</Button>
       </Stack>
     </Paper>
