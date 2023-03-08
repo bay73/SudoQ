@@ -25,15 +25,21 @@ function getRating(result: SingleResult): number {
 }
 
 function saveRating(rating: number) {
-  const dateInStorage = localStorage.getItem('historyStartDate')
-  let startDate = dateInStorage===null ? undefined : new Date(dateInStorage)
-  if (typeof startDate=='undefined' || startDate===null) {
+  const historyInStorage = localStorage.getItem('history')
+  let history: any = {}
+  if (historyInStorage !== null && historyInStorage !== undefined) {
+    history = JSON.parse(historyInStorage)
+  }
+  const dateInStorage = history["historyStartDate"]
+  let startDate = (dateInStorage===null || dateInStorage===undefined) ? undefined : new Date(dateInStorage)
+  if (startDate===undefined || startDate===null) {
     startDate = new Date()
     startDate.setHours(0,0,0,0)
-    localStorage.setItem('historyStartDate', startDate.toLocaleString())
+    history["historyStartDate"] = startDate.toLocaleString()
   }
   const dayNum = Math.floor((Date.now() - startDate.getTime())/(1000 * 3600 * 24))
-  localStorage.setItem('history'+dayNum, rating.toString())
+  history['history'+dayNum] = rating.toString()
+  localStorage.setItem('history', JSON.stringify(history))
 }
 
 export function FinishDialog(props: Props) {
