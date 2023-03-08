@@ -48,7 +48,7 @@ export class SudokuData {
 
 
   static parseJSON(json: string): SudokuData {
-    const nonClueKeys = ["size", "areas", "goal", "goalValue", "medianTime"];
+    const nonClueKeys = ["size", "areas", "goal", "goalValue", "medianTime", "steps"];
   
     const gridData = JSON.parse(json)
     

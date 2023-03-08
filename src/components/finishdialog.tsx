@@ -86,6 +86,10 @@ export function FinishDialog(props: Props) {
     props.setState(props.appState.newState("review"));
   }
 
+  const onHistoryClick = function() {
+    props.setState(props.appState.newState("history"));
+  }
+
   return (
     <Paper elevation={12} sx={{p:1, textAlign: "center", my: 2}}>
       <Stack spacing={2} direction="column" justifyContent="space-evenly" alignItems="center">
@@ -96,6 +100,7 @@ export function FinishDialog(props: Props) {
           {ratingPicture}
         </svg>
         <Button variant='outlined' onClick = {()=>onReviewClick()}>Review puzzles</Button>
+        <Button variant='outlined' onClick = {()=>onHistoryClick()}>SudoQ history</Button>
       </Stack>
     </Paper>
   );

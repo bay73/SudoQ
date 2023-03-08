@@ -4,6 +4,7 @@ import {MainPage} from './main'
 import {StartDialog} from './startdialog'
 import {FinishDialog} from './finishdialog'
 import {ReviewDialog} from './reviewdialog'
+import {HistoryDialog} from './historydialog'
 import {HelpDialog} from './helpdialog'
 import {Storage} from '../data/storage'
 import {SolvingStat} from '../model/solving_stat'
@@ -59,6 +60,12 @@ function App() {
     return (
       <Container>
         <ReviewDialog appState={appState} setState={setState} sudokuData={sudokuData} setSudokuData={setSudokuData}  solvingStat={solvingStat}  />
+      </Container>
+    )
+  } else if (appState.state === 'history') {
+    return (
+      <Container>
+        <HistoryDialog appState={appState} setState={setState}/>
       </Container>
     )
   } else if (sudokuData !== undefined) {
