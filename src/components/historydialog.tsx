@@ -26,13 +26,14 @@ export function HistoryDialog(props: Props) {
   let date = startDate
   while (date < new Date()) {
     date = new Date()
-    date.setDate(startDate.getDate() + days);
+    date.setDate(startDate.getDate() + days)
+    let dateStr = date.toLocaleDateString();
     if (history["history" + days] != undefined) {
-      ratings.push({days: days, date: date, value: history["history" + days]})
+      ratings.push({days: days, date: dateStr, value: history["history" + days]})
     }
     days++
   }
-  const ratingPicture = ratings.map(r => <Typography align="left" key = {r.days}>{r.date.toLocaleDateString()} - {r.value}</Typography>)
+  const ratingPicture = ratings.map(r => <Typography align="left" key = {r.days}>{r.date} - {r.value}</Typography>)
 
   return (
     <Paper elevation={12} sx={{p:1, textAlign: "center", my: 2}}>
