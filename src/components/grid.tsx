@@ -1,10 +1,11 @@
-import {SudokuData, Cell, Value} from '../model/sudoku'
+import {SudokuData, Cell, Value, Step} from '../model/sudoku'
 import {AppState} from '../model/state'
 
 const edgeLineStyle = {stroke: "black", strokeWidth: "1px", fill: "none"}
 const boldLineStyle = {stroke: "black", strokeWidth: "4px", fill: "none"}
 const targetLineStyle = {stroke: "red", strokeWidth: "1px", fill: "none"}
 const clueStyle = {fontFamily: "Roboto,Helvetica,Arial,sans-serif", fontWeight: "bold"}
+const stepStyle = {fontFamily: "Roboto,Helvetica,Arial,sans-serif", fontWeight: "bold", fill: "blue"}
 
 interface Props {
   gridSize: number;
@@ -24,8 +25,17 @@ export function Grid(props: Props) {
 
   const cells = cellsOf2DArray(size).map((cell, index) => DrawCell(cell, scale, index));
   const digits = (props.appState.state==='solving' || props.appState.state==='review')?
-    props.sudokuData.clues.map((clue, index) => DrawDigit(clue.cell, scale, clue.value, index)) :
+    props.sudokuData.clues.map((clue, index) => DrawDigit(clue.cell, scale, clue.value, index, clueStyle)) :
     <></>
+
+  const steps = (props.appState.state==='review')?
+    props.sudokuData.steps.map((step, index) => DrawDigit(step.cells[0], scale, step.value, index, stepStyle)) :
+    <></>
+
+  const stepsIndexes = (props.appState.state==='review')?
+    props.sudokuData.steps.map((step, index) => DrawIndex(step.cells[0], scale, new Value(index+1), index, stepStyle)) :
+    <></>
+
   const outerEdges = DrawOuterEdge(size, scale)
   const innerHorizontalEdges = cellsOf2DArray(size)
       .filter(cell => areaMap.hasBottomBorder(cell))
@@ -43,6 +53,8 @@ export function Grid(props: Props) {
       {innerVerticalEdges}
       {outerEdges}
       {target}
+      {steps}
+      {stepsIndexes}
     </svg>
   )
 }
@@ -106,9 +118,14 @@ function DrawCell(cell: Cell, scale: number, index: number) {
   return <rect key={index} x={cell.column*scale} y={cell.row*scale} width={scale} height={scale} style={edgeLineStyle}></rect>
 }
 
-function DrawDigit(cell: Cell, scale: number, value: Value, index: number) {
+function DrawDigit(cell: Cell, scale: number, value: Value, index: number, style: Object) {
   const center = {x: cell.column*scale + scale/2, y: cell.row*scale + scale/2}
-  return <text key={index} x={center.x} y={center.y} textAnchor="middle" dominantBaseline="central" fontSize={scale*2/3} style={clueStyle}>{value.value}</text>
+  return <text key={index} x={center.x} y={center.y} textAnchor="middle" dominantBaseline="central" fontSize={scale*2/3} style={style}>{value.value}</text>
+}
+
+function DrawIndex(cell: Cell, scale: number, value: Value, index: number, style: Object) {
+  const center = {x: cell.column*scale + 3*scale/4, y: cell.row*scale + 3*scale/4}
+  return <text key={index} x={center.x} y={center.y} textAnchor="middle" dominantBaseline="central" fontSize={scale*1/3} style={style}>{value.value}</text>
 }
 
 function DrawBottomEdge(cell: Cell, scale: number, index: number) {

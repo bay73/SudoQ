@@ -31,19 +31,33 @@ export class CellValue {
   }
 }
 
+export class Step {
+  cells: Cell[];
+  value: Value;
+  strategy: string
+
+  constructor(cells: Cell[], value: Value, strategy: string) {
+    this.cells = cells;
+    this.value = value;
+    this.strategy = strategy
+  }
+}
+
 export class SudokuData {
   size: number;
   areas: Cell[][];
   clues: CellValue[];
   goal: CellValue;
+  steps: Step[]
   medianTime: number;
   
-  constructor(size: number, areas: Cell[][], clues: CellValue[], goal: CellValue, medianTime: number) {
+  constructor(size: number, areas: Cell[][], clues: CellValue[], goal: CellValue, medianTime: number, steps: Step[]) {
     this.size = size;
     this.areas = areas;
     this.clues = clues;
     this.goal = goal;
     this.medianTime = medianTime;
+    this.steps = steps
   }
 
 
@@ -60,8 +74,9 @@ export class SudokuData {
       .map((area: string[]) => area.map(coordinate => Cell.byCoordinate(size, coordinate)))
     const goal: CellValue = new CellValue(Cell.byCoordinate(size, gridData.goal), new Value(gridData.goalValue as number))
     const medianTime = gridData.medianTime
-    
-    return new SudokuData(size, areas, clues, goal, medianTime)
+    const steps = gridData.steps.map((step: any) => new Step(step.position.map((position: any) => Cell.byCoordinate(size, position)), new Value (step.value), step.strategy))
+
+    return new SudokuData(size, areas, clues, goal, medianTime, steps)
   }
 }
 
