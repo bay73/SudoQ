@@ -1,7 +1,7 @@
 {
   "name": "sudoq_client",
   "version": "0.1.0",
-  "homepage": "https://bay73.github.io/sudoq",
+  "homepage": "http://bay73.github.io/SudoQ",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.10.5",

@@ -20,7 +20,7 @@ function App() {
   React.useEffect(() => {
       (async () => {
         const today = new Date();
-        const address = "https://bay.github.io/sudoq/data/" +
+        const address = "https://bay73.github.io/SudoQ/data/" +
               today.getFullYear() + "/" +
               ("00" + (today.getMonth()+1)).slice(-2) + "/" +
               ("00" + today.getDate()).slice(-2) + ".json"
