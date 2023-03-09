@@ -1,7 +1,7 @@
 {
   "name": "sudoq_client",
   "version": "0.1.0",
-  "homepage": "http://sudoq.site/SudoQ",
+  "homepage": "http://sudoq.site",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.10.5",
