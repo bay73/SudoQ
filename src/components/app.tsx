@@ -24,7 +24,7 @@ function App() {
               today.getFullYear() + "/" +
               ("00" + (today.getMonth()+1)).slice(-2) + "/" +
               ("00" + today.getDate()).slice(-2) + ".json"
-        const response = await fetch(address, {mode: "no-cors"});
+        const response = await fetch(address);
         const data = await response.json();
         Storage.init(data)
         let state = AppState.fromJson(localStorage.getItem("state"))
