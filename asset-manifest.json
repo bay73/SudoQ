@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/SudoQ/static/css/main.e6c13ad2.css",
-    "main.js": "/SudoQ/static/js/main.7fe7abd6.js",
-    "static/js/787.b95230d6.chunk.js": "/SudoQ/static/js/787.b95230d6.chunk.js",
-    "index.html": "/SudoQ/index.html",
-    "main.e6c13ad2.css.map": "/SudoQ/static/css/main.e6c13ad2.css.map",
-    "main.7fe7abd6.js.map": "/SudoQ/static/js/main.7fe7abd6.js.map",
-    "787.b95230d6.chunk.js.map": "/SudoQ/static/js/787.b95230d6.chunk.js.map"
+    "main.css": "/sudoq/static/css/main.e6c13ad2.css",
+    "main.js": "/sudoq/static/js/main.b010019e.js",
+    "static/js/787.b95230d6.chunk.js": "/sudoq/static/js/787.b95230d6.chunk.js",
+    "index.html": "/sudoq/index.html",
+    "main.e6c13ad2.css.map": "/sudoq/static/css/main.e6c13ad2.css.map",
+    "main.b010019e.js.map": "/sudoq/static/js/main.b010019e.js.map",
+    "787.b95230d6.chunk.js.map": "/sudoq/static/js/787.b95230d6.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.e6c13ad2.css",
-    "static/js/main.7fe7abd6.js"
+    "static/js/main.b010019e.js"
   ]
 }
