@@ -35,7 +35,7 @@ export function ReviewDialog(props: Props) {
       window.removeEventListener('resize', debouncedHandleResize)
     }
   })
-  const hGap = 0.05
+  const hGap = 0.6
   const wGap = 0.1
   const usedHeight = dimensions.height/ (1+hGap)
   const usedWidth = dimensions.width/ (1+wGap)
@@ -56,8 +56,8 @@ export function ReviewDialog(props: Props) {
 
   return (
     <Paper elevation={12} sx={{p:1, textAlign: "center", my: 2}}>
-      <Stack spacing={2} direction="column" justifyContent="space-evenly" alignItems="center">
-        <Typography variant="h4" align="center" sx={{my: 3}} >Today's puzzles</Typography>
+      <Stack spacing={1} direction="column" justifyContent="space-evenly" alignItems="center">
+        <Typography variant="h4" align="center" sx={{my: 1}} >Today's puzzles</Typography>
         <Stack spacing={1} direction="row" justifyContent="space-evenly" alignItems="center">
           {buttons}
         </Stack>
