@@ -44,8 +44,8 @@ class Pattern {
     const maxClues: number[] = []
     maxClues[4] = 6
     maxClues[5] = 9
-    maxClues[6] = 15
-    maxClues[7] = 20
+    maxClues[6] = 16
+    maxClues[7] = 21
     maxClues[8] = 25
     maxClues[9] = 36
     this.allCells = []
