@@ -20,7 +20,7 @@ export function HelpDialog(props: Props) {
         <Typography sx={{py: 1}}>In <Box component='span' sx={{fontWeight: 'bold'}}>Sudoku</Box> puzzle the goal is to fill in all the cells of a grid with digits so that no digits can repeat in rows, columns and outlined areas.
         Some digits are already placed. Only digits from the range 1..[grid size] can be used. Each Sudoku puzzle has unique solution and the digits can be determined logically one by one.</Typography>
         <Typography sx={{py: 1}}>In <Box component='span' sx={{fontWeight: 'bold'}}>SudoQ</Box> you face six grids of different sizes from 4x4 to 9x9 and in each of the grids you need to determine just one digit which should be set in a cell marked as a target. You have only one attempt for each puzzle.</Typography>
-        <Typography sx={{py: 1}}>Based on your answers and time spent on each puzzle your SudoQ rating will be counted. The maximum possible (and unreachable by humans) value for the rating is 200. You can measure you skills every day and see how it evolves over time.</Typography>
+        <Typography sx={{py: 1}}>Based on your answers, puzzle complexity and time spent on each puzzle your SudoQ rating will be counted. The maximum possible (and unreachable by humans) value for the rating is 200. Grids of different sizes affect the final score differently - bigger grids have bigger influence. Every day new puzzles are published, you can measure you skills again and see how it evolves over time.</Typography>
       </Typography>
 
       <Button variant='contained' autoFocus onClick = {()=>onClose()}>Back to Sudoku</Button>
