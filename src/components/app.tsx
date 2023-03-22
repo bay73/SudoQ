@@ -20,10 +20,10 @@ function App() {
   React.useEffect(() => {
       (async () => {
         const today = new Date();
-        const address = "https://sudoq.site/data/" +
-              today.getFullYear() + "/" +
+        const dateStr = today.getFullYear() + "/" +
               ("00" + (today.getMonth()+1)).slice(-2) + "/" +
-              ("00" + today.getDate()).slice(-2) + ".json"
+              ("00" + today.getDate()).slice(-2)
+        const address = "https://sudoq.site/data/" + dateStr + ".json"
         const response = await fetch(address);
         const data = await response.json();
         Storage.init(data)

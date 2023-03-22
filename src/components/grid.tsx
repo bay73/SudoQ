@@ -1,4 +1,4 @@
-import {SudokuData, Cell, Value, Step} from '../model/sudoku'
+import {SudokuData, Cell, Value} from '../model/sudoku'
 import {AppState} from '../model/state'
 
 const edgeLineStyle = {stroke: "black", strokeWidth: "1px", fill: "none"}

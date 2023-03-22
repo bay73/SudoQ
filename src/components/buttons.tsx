@@ -3,6 +3,7 @@ import {SudokuData} from '../model/sudoku'
 import {Storage} from '../data/storage'
 import {SolvingStat} from '../model/solving_stat'
 import {AppState} from '../model/state'
+import {v4 as uuidv4} from 'uuid';
 
 const defaultSpaceSize = 8 
 
@@ -31,6 +32,20 @@ export function Buttons(props: Props) {
       props.solvingStat.correct(props.sudokuData.size, answer,solvingTime, props.sudokuData.medianTime*1000)
       : props.solvingStat.wrong(props.sudokuData.size, answer, solvingTime, props.sudokuData.medianTime*1000);
     props.setSolvingStat(newSolvingStat)
+    if (Object.keys(newSolvingStat.results).length === 6) {
+      const today = new Date();
+      const dateStr = today.getFullYear() + "-" +
+              ("00" + (today.getMonth()+1)).slice(-2) + "-" +
+              ("00" + today.getDate()).slice(-2)
+      let userid = localStorage.getItem("userid")
+      if (userid === undefined || userid === null) {
+        const newuserid = uuidv4();
+        localStorage.setItem("userid", newuserid)
+        userid = newuserid
+      }
+      const address = "http://www.puzzleduel.club/sudoqlog/" + userid + "/" + dateStr + "?data=" + JSON.stringify(Object.values(newSolvingStat.results))
+      fetch(encodeURI(address), {mode: 'no-cors'})
+    }
     if (Storage.hasNext(props.sudokuData.size)) {
       const next = Storage.next(props.sudokuData.size)
       if (next !== undefined) {
