@@ -106,6 +106,7 @@ export function FinishDialog(props: Props) {
           {ratingPicture}
         </svg>
         <Button variant='outlined' onClick = {()=>onReviewClick()}>Review puzzles</Button>
+        <Button variant='outlined' onClick = {()=>onHistoryClick()}>SudoQ history</Button>
       </Stack>
     </Paper>
   );
