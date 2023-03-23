@@ -32,7 +32,7 @@ export function Buttons(props: Props) {
       props.solvingStat.correct(props.sudokuData.size, answer,solvingTime, props.sudokuData.medianTime*1000)
       : props.solvingStat.wrong(props.sudokuData.size, answer, solvingTime, props.sudokuData.medianTime*1000);
     props.setSolvingStat(newSolvingStat)
-    if (Object.keys(newSolvingStat.results).length === 6) {
+    if (props.sudokuData.size === 9) {
       const today = new Date();
       const dateStr = today.getFullYear() + "-" +
               ("00" + (today.getMonth()+1)).slice(-2) + "-" +
