@@ -43,7 +43,7 @@ export function Buttons(props: Props) {
         localStorage.setItem("userid", newuserid)
         userid = newuserid
       }
-      const address = "http://www.puzzleduel.club/sudoqlog/" + userid + "/" + dateStr + "?data=" + JSON.stringify(Object.values(newSolvingStat.results))
+      const address = "https://www.puzzleduel.club/sudoqlog/" + userid + "/" + dateStr + "?data=" + JSON.stringify(Object.values(newSolvingStat.results))
       fetch(encodeURI(address), {mode: 'no-cors'})
     }
     if (Storage.hasNext(props.sudokuData.size)) {
