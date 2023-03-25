@@ -1,0 +1,1 @@
+mongoexport --username=pd_auth_admin --password= --collection=sudoqlogs --type=csv --fields=userId,puzzleDate,size,time,solved,answer --out=sudoqlogs.csv mongodb+srv://pd-auth.dtqjz.mongodb.net/test
