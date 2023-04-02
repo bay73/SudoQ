@@ -99,7 +99,8 @@ export function FinishDialog(props: Props) {
   return (
     <Paper elevation={12} sx={{p:1, textAlign: "center", my: 2}}>
       <Stack spacing={2} direction="column" justifyContent="space-evenly" alignItems="center">
-        <Typography variant="h3" align="center" sx={{my: 3}} >Your SudoQ today is {sudoQ}</Typography>
+        <Typography variant="h3" align="center">Your SudoQ today is {sudoQ}</Typography>
+        <Typography>Try the new puzzles tomorrow</Typography>
         <svg viewBox={viewBox} style={{width: gridSize, height: gridSize }} >
           {squares}
           {numbers}

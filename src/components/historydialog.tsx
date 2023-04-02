@@ -35,11 +35,11 @@ export function HistoryDialog(props: Props) {
 }
 
 function DrawItem(item: HistoryItem, barSickness: number) {
-  let date: string = item.date.getDate() + "/" + (item.date.getMonth() + 1)
-  return <Box sx={{display: 'block', height: barSickness + 'px', width: '100%', textAlign: 'left'}}>
+  let date: string = item.date.getDate() + "/" + item.date.getMonth()
+  return <Box key={item.day} sx={{display: 'block', height: barSickness + 'px', width: '100%', textAlign: 'left'}}>
     <Box sx={{display: 'inline-block', height: '100%', width: '10%', fontSize: (barSickness/2) + 'px'}}>{date}</Box>
     <Box sx={{display: 'inline-block', height: '100%', width: '90%'}}>
-      <Box sx={{pr: 1, display: 'inline-block', height: '100%', width: (item.value/2)+'%', 'background-color': 'blue', textAlign: 'right', color: 'white', fontSize: (barSickness*2/3) + 'px', fontWeight: 'bold'}}>{item.value}</Box>
+      <Box sx={{pr: 1, display: 'inline-block', height: '100%', width: (item.value/2)+'%', 'backgroundColor': 'blue', textAlign: 'right', color: 'white', fontSize: (barSickness*2/3) + 'px', fontWeight: 'bold'}}>{item.value}</Box>
     </Box>
   </Box>
 }
