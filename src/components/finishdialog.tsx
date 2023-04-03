@@ -3,6 +3,7 @@ import {Stack, Paper, Typography, Button} from '@mui/material'
 import {AppState} from '../model/state'
 import {SingleResult, SolvingStat} from '../model/solving_stat'
 import {debounce} from './utils'
+import {LinkShareButton} from './share'
 
 const numberStyle = {fontFamily: "Roboto,Helvetica,Arial,sans-serif", fontWeight: "bold"}
 
@@ -88,6 +89,7 @@ export function FinishDialog(props: Props) {
   let gridSize = usedHeight / (1+headerFraction)
   gridSize = gridSize > usedWidth ? usedWidth : gridSize
 
+
   const onReviewClick = function() {
     props.setState(props.appState.newState("review"));
   }
@@ -100,14 +102,18 @@ export function FinishDialog(props: Props) {
     <Paper elevation={12} sx={{p:1, textAlign: "center", my: 2}}>
       <Stack spacing={2} direction="column" justifyContent="space-evenly" alignItems="center">
         <Typography variant="h3" align="center">Your SudoQ today is {sudoQ}</Typography>
-        <Typography>Try the new puzzles tomorrow</Typography>
+        <Typography>Try new puzzles tomorrow</Typography>
         <svg viewBox={viewBox} style={{width: gridSize, height: gridSize }} >
           {squares}
           {numbers}
           {ratingPicture}
         </svg>
-        <Button variant='outlined' onClick = {()=>onReviewClick()}>Review puzzles</Button>
-        <Button variant='outlined' onClick = {()=>onHistoryClick()}>SudoQ history</Button>
+        <LinkShareButton
+          buttonText = "Share Link"
+          shareText = {'My SudoQ today is ' + sudoQ + '. Check you Sudoku solving skills at https://sudoq.site'}
+        />
+        <Button variant='outlined' onClick = {onReviewClick}>Review puzzles</Button>
+        <Button variant='outlined' onClick = {onHistoryClick}>SudoQ history</Button>
       </Stack>
     </Paper>
   );
