@@ -4,6 +4,7 @@ import {AppState} from '../model/state'
 import {SingleResult, SolvingStat} from '../model/solving_stat'
 import {debounce} from './utils'
 import {LinkShareButton} from './share'
+import {getStartDate, epochStart, getDateFromDay} from '../model/history'
 
 const numberStyle = {fontFamily: "Roboto,Helvetica,Arial,sans-serif", fontWeight: "bold"}
 
@@ -28,17 +29,21 @@ function getRating(result: SingleResult): number {
 function saveRating(rating: number) {
   const historyInStorage = localStorage.getItem('history')
   let history: any = {}
-  if (historyInStorage !== null && historyInStorage !== undefined) {
-    history = JSON.parse(historyInStorage)
-  }
-  const dateInStorage = history["historyStartDate"]
-  let startDate = (dateInStorage===null || dateInStorage===undefined) ? undefined : new Date(dateInStorage)
-  if (startDate===undefined || startDate===null) {
+  let startDate: Date | null = getStartDate(historyInStorage)
+  if (startDate != null) {
+    if (historyInStorage != null) {
+      history = JSON.parse(historyInStorage)
+    }
+  } else {
     startDate = new Date()
     startDate.setHours(0,0,0,0)
-    history["historyStartDate"] = startDate.toLocaleString()
   }
-  const dayNum = Math.floor((Date.now() - startDate.getTime())/(1000 * 3600 * 24))
+  if ( history["historyStart"] === undefined) {
+    const historyStart = Math.floor((startDate.valueOf() - epochStart.valueOf())/(1000 * 3600 * 24))
+    history["historyStart"] = historyStart
+    startDate = getDateFromDay(historyStart)
+  }
+  const dayNum = Math.floor((Date.now() - startDate.valueOf())/(1000 * 3600 * 24))
   history['history'+dayNum] = rating.toString()
   localStorage.setItem('history', JSON.stringify(history))
 }
