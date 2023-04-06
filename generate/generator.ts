@@ -5,6 +5,8 @@ import { Grid } from './grid'
 import { Strategies } from './strategies'
 import { existsSync, writeFileSync } from 'fs';
 
+const MAX_RANDOM_TIME = 30000;
+
 class Pattern {
   size: number
   cells: number[][]
@@ -112,8 +114,11 @@ function solve(grid: Grid) {
   }
 }
 
-function putRandom(grid: Grid, pattern: Pattern, stage: number): Grid | undefined {
+function putRandom(grid: Grid, pattern: Pattern, stage: number, startTime: number): Grid | undefined {
   if (stage > pattern.maxStage) {
+    return undefined
+  }
+  if (Date.now() - startTime > MAX_RANDOM_TIME) {
     return undefined
   }
   if (grid.findEmptyCell() === undefined) {
@@ -143,7 +148,7 @@ function putRandom(grid: Grid, pattern: Pattern, stage: number): Grid | undefine
           // console.log(cell.position.coordinate() + "->" + randomValue + " random")
           newGrid.setValue(cell.position, randomValue)
           solve(newGrid)
-          const result = putRandom(newGrid, pattern, stage)
+          const result = putRandom(newGrid, pattern, stage, startTime)
           if (result !== undefined) {
             return result
           } else {
@@ -157,7 +162,7 @@ function putRandom(grid: Grid, pattern: Pattern, stage: number): Grid | undefine
   if (result !== undefined) {
     return result
   }
-  return putRandom(grid, pattern, stage + 1)
+  return putRandom(grid, pattern, stage + 1, startTime)
 }
 
 const allGrids: Grid[][] = []
@@ -337,7 +342,7 @@ function chooseGoalAndStringify(grid: Grid): Record<string, any> | undefined {
     const goal = goals[index]
     const goalValue = solution.cell(goal).value
     const complexity = Math.floor(paths[goal.row][goal.column].complexity * timeMultiplier[grid.size])
-   console.log(goal.coordinate(), goalValue, complexity)
+    console.log(goal.coordinate(), goalValue, complexity)
     
     const result: Record<string, any> = {}
     result["size"] = grid.size
@@ -386,8 +391,7 @@ class Data {
 
 const data = new Data()
 
-for (let size=4;size<10;size++) {
-  const grid = randomElement(allGrids[size])
+function BuildPattern(size: number) {
   const pattern = new Pattern(size, "{}")
   if (size < 5) {
     pattern.fillRandom("none")
@@ -396,18 +400,32 @@ for (let size=4;size<10;size++) {
   } else {
     pattern.fillRandom("four_axis")
   }
+  return pattern
+}
+
+for (let size=4;size<10;size++) {
+  const grid = randomElement(allGrids[size])
+  let pattern = BuildPattern(size)
 
   let generated = false
+  let counter = 0;
   while (!generated) {
-    const randomGrid = putRandom(grid.copy(), pattern, 1);
-
+    if (counter > 3) {
+      console.log('Try another pattern')
+      pattern = BuildPattern(size)
+      counter = 0
+    }
+    const randomGrid = putRandom(grid.copy(), pattern, 1, Date.now());
     if (randomGrid !== undefined) {
       const result = chooseGoalAndStringify(randomGrid)
       if (result !== undefined) {
         data.data.push(result)
         generated = true
       }
+    } else {
+      console.log('Could not fill random')
     }
+    counter++;
   }
 }
 
