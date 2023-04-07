@@ -115,7 +115,7 @@ export function FinishDialog(props: Props) {
         </svg>
         <LinkShareButton
           buttonText = "Share Link"
-          shareText = {'My SudoQ today is ' + sudoQ + '. Check you Sudoku solving skills at https://sudoq.site'}
+          shareText = {'My SudoQ today is ' + sudoQ + '. Check you Sudoku solving skills at #SudoQ. https://sudoq.site'}
         />
         <Button variant='outlined' onClick = {onReviewClick}>Review puzzles</Button>
         <Button variant='outlined' onClick = {onHistoryClick}>SudoQ history</Button>
