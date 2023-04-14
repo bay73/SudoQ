@@ -332,11 +332,11 @@ function chooseGoalAndStringify(grid: Grid): Record<string, any> | undefined {
   }
   if (goals.length > 0) {
     const timeMultiplier: number[] = []
-    timeMultiplier[4] = 2.
-    timeMultiplier[5] = 5.3
-    timeMultiplier[6] = 6.
-    timeMultiplier[7] = 8.1
-    timeMultiplier[8] = 12.2
+    timeMultiplier[4] = 2.8
+    timeMultiplier[5] = 6.4
+    timeMultiplier[6] = 7.6
+    timeMultiplier[7] = 11.9
+    timeMultiplier[8] = 13.3
     timeMultiplier[9] = 13.7
     const index = Math.floor(Math.random() * goals.length)
     const goal = goals[index]
