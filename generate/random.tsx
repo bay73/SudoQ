@@ -73,7 +73,7 @@ function allPathes(grid: Grid) {
   return paths
 }
 
-export function chooseGoalAndStringify(grid: Grid): Record<string, any> | undefined {
+export function chooseGoalAndStringify(grid: Grid, minimumComplexity: number, maximumComplexity: number): Record<string, any> | undefined {
   const paths = allPathes(grid)
   const solution = grid.copy()
   solve(solution)
@@ -86,7 +86,7 @@ export function chooseGoalAndStringify(grid: Grid): Record<string, any> | undefi
   for (let row = grid.size - 1; row >= 0; row--) {
     for (let column = 0; column < grid.size; column++) {
       const c = paths[row][column].complexity
-      if (c > 3 && c < 1000) {
+      if (c >= minimumComplexity && c <= maximumComplexity) {
         goals.push(new Position(row, column))
       }
     }
@@ -102,7 +102,11 @@ export function chooseGoalAndStringify(grid: Grid): Record<string, any> | undefi
     const index = Math.floor(Math.random() * goals.length)
     const goal = goals[index]
     const goalValue = solution.cell(goal).value
-    const complexity = Math.floor(paths[goal.row][goal.column].complexity * timeMultiplier[grid.size])
+    let pathComplexity = paths[goal.row][goal.column].complexity;
+    if (pathComplexity==3) {
+      pathComplexity = 0.7;
+    }
+    const complexity = Math.floor(pathComplexity * timeMultiplier[grid.size])
     console.log(goal.coordinate(), goalValue, complexity)
     
     const result: Record<string, any> = {}
@@ -128,7 +132,7 @@ export function chooseGoalAndStringify(grid: Grid): Record<string, any> | undefi
   }
 }
 
-export function randomPuzzle(size: number) {
+export function randomPuzzle(size: number, minimumComplexity: number, maximumComplexity: number) {
   const grid = randomElement(allGrids[size])
   let pattern = BuildPattern(size)
 
@@ -141,7 +145,7 @@ export function randomPuzzle(size: number) {
     }
     const randomGrid = putRandom(grid.copy(), pattern, 1, Date.now());
     if (randomGrid !== undefined) {
-      const result = chooseGoalAndStringify(randomGrid)
+      const result = chooseGoalAndStringify(randomGrid, minimumComplexity, maximumComplexity)
       if (result !== undefined) {
         return result
       }
